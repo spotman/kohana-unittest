@@ -54,7 +54,7 @@ abstract class Kohana_Unittest_TestCase extends PHPUnit_Framework_TestCase {
 	 */
 	public function cleanCacheDir()
 	{
-		return Unittest_Helpers::clean_cache_dir();
+		Unittest_Helpers::clean_cache_dir();
 	}
 
 	/**
@@ -163,8 +163,6 @@ abstract class Kohana_Unittest_TestCase extends PHPUnit_Framework_TestCase {
 	 */
 	protected static function tag_match($matcher, $actual, $message = '', $isHtml = true)
 	{
-		$dom = PHPUnit_Util_XML::load($actual, $isHtml);
-		$tags = PHPUnit_Util_XML::findNodes($dom, $matcher, $isHtml);
-		return count($tags) > 0 && $tags[0] instanceof DOMNode;
+	    return false;
 	}
 }

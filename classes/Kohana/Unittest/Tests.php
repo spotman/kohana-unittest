@@ -13,11 +13,13 @@
 class Kohana_Unittest_Tests {
 	static protected $cache = array();
 
+	protected static $skipModules = [];
+
 	/**
 	 * Loads test files if they cannot be found by kohana
 	 * @param <type> $class
 	 */
-	static function autoload($class)
+	public static function autoload($class)
 	{
 		$file = str_replace('_', '/', $class);
 
@@ -52,7 +54,7 @@ class Kohana_Unittest_Tests {
 	 *
 	 * @return Unittest_TestSuite
 	 */
-	static function suite()
+	public static function suite()
 	{
 		static $suite = NULL;
 
@@ -67,7 +69,9 @@ class Kohana_Unittest_Tests {
 		
 		// Load the whitelist and blacklist for code coverage		
 		$config = Kohana::$config->load('unittest');
-		
+
+		self::$skipModules = (array)$config->get('skip_modules');
+
 		if ($config->use_whitelist)
 		{
 			Unittest_Tests::whitelist(NULL, $suite);
@@ -93,22 +97,36 @@ class Kohana_Unittest_Tests {
 	 * @param Unittest_TestSuite  $suite   The test suite to add to
 	 * @param array                        $files   Array of files to test
 	 */
-	static function addTests(Unittest_TestSuite $suite, array $files)
+	public static function addTests(Unittest_TestSuite $suite, array $files)
 	{
+	    $whitelistedPaths = self::get_config_whitelist();
 
 		foreach ($files as $path => $file)
 		{
 			if (is_array($file))
 			{
-				if ($path != 'tests'.DIRECTORY_SEPARATOR.'test_data')
+				if ($path !== 'tests'.DIRECTORY_SEPARATOR.'test_data')
 				{					
 					self::addTests($suite, $file);
 				}
 			}
 			else
 			{
+			    $allowedFile = false;
+
+                foreach ($whitelistedPaths as $allowedPath) {
+                    if (strpos($file, $allowedPath) !== false) {
+                        $allowedFile = true;
+                        break;
+                    }
+			    }
+
+			    if (!$allowedFile) {
+                    continue;
+                }
+
 				// Make sure we only include php files
-				if (is_file($file) AND substr($file, -strlen(EXT)) === EXT)
+				if (is_file($file) && substr($file, -strlen(EXT)) === EXT)
 				{
 					// The default PHPUnit TestCase extension
 					if ( ! strpos($file, 'TestCase'.EXT))
@@ -124,6 +142,23 @@ class Kohana_Unittest_Tests {
 				}
 			}
 		}
+	}
+
+    protected static function getSkippedModulesPaths()
+    {
+        $modules = Kohana::modules();
+
+        $output = [];
+
+        foreach (self::$skipModules as $moduleName) {
+            if (!isset($modules[$moduleName])) {
+                throw new \Kohana_Exception('Module :name was not defined', [':name' => $moduleName]);
+            }
+
+            $output[] = $modules[$moduleName];
+        }
+
+        return $output;
 	}
 
 	/**
