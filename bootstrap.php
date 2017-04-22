@@ -103,6 +103,11 @@ if (!defined('KOHANA_START_MEMORY')) {
 try {
     // Bootstrap the application
     require APPPATH.'bootstrap.php';
+
+    // Attach basic log
+    $log = Log::instance();
+    $log->attach(new Log_StdOut(), Log::DEBUG, Log::EMERGENCY);
+    $log->add(Log::DEBUG, 'Bootstrap is done, processing tests');
 } catch (Throwable $e) {
     die($e->getMessage().PHP_EOL.$e->getTraceAsString());
 } catch (Exception $e) {
