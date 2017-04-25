@@ -53,7 +53,8 @@ abstract class Kohana_Unittest_TestSuite extends PHPUnit_Framework_TestSuite
 	
 	/**
 	 * Queues a file to be added to the code coverage blacklist when the suite runs
-	 * @param string $file 
+	 * @param string $file
+     * @deprecated
 	 */
 	public function addFileToBlacklist($file)
 	{
@@ -63,6 +64,7 @@ abstract class Kohana_Unittest_TestSuite extends PHPUnit_Framework_TestSuite
 	/**
 	 * Queues a directory to be added to the code coverage blacklist when the suite runs
 	 * @param string $dir
+     * @deprecated
 	 */
 	public function addDirectoryToBlacklist($dir)
 	{

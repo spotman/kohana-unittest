@@ -77,10 +77,10 @@ class Kohana_Unittest_Tests {
 			Unittest_Tests::whitelist(NULL, $suite);
 		}
 		
-		if (count($config['blacklist']))
-		{
-			Unittest_Tests::blacklist($config->blacklist, $suite);
-		}
+//		if (count($config['blacklist']))
+//		{
+//			Unittest_Tests::blacklist($config->blacklist, $suite);
+//		}
 
 		// Add tests
 		$files = Kohana::list_files('tests');
@@ -138,7 +138,7 @@ class Kohana_Unittest_Tests {
 						require_once($file);
 					}
 
-					$suite->addFileToBlacklist($file);
+//					$suite->addFileToBlacklist($file);
 				}
 			}
 		}
@@ -166,8 +166,9 @@ class Kohana_Unittest_Tests {
 	 *
 	 * @param array $blacklist_items A set of files to blacklist
 	 * @param Unittest_TestSuite $suite The test suite
+     * @deprecated
 	 */
-	static public function blacklist(array $blacklist_items, Unittest_TestSuite $suite = NULL)
+	static public function blacklist(array $blacklist_items, Unittest_TestSuite $suite)
 	{
 		foreach ($blacklist_items as $item)
 		{
