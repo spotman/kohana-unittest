@@ -4,7 +4,7 @@
  * A version of the stock PHPUnit testsuite that supports whitelisting and 
  * blacklisting for code coverage filter
  */
-abstract class Kohana_Unittest_TestSuite extends PHPUnit_Framework_TestSuite 
+abstract class Kohana_Unittest_TestSuite extends \PHPUnit\Framework\TestSuite
 {
 	/**
 	 * Holds the details of files that should be white and blacklisted for
@@ -20,21 +20,14 @@ abstract class Kohana_Unittest_TestSuite extends PHPUnit_Framework_TestSuite
 	/**
      * Runs the tests and collects their result in a TestResult.
      *
-     * @param  PHPUnit_Framework_TestResult $result
-     * @param  mixed                        $filter
-     * @param  array                        $groups
-     * @param  array                        $excludeGroups
-     * @param  boolean                      $processIsolation
-     * @return PHPUnit_Framework_TestResult
+     * @param  \PHPUnit\Framework\TestResult $result
+     * @return \PHPUnit\Framework\TestResult
      * @throws InvalidArgumentException
      */
-    public function run(PHPUnit_Framework_TestResult $result = NULL, $filter = FALSE, array $groups = array(), array $excludeGroups = array(), $processIsolation = FALSE)
+    public function run(\PHPUnit\Framework\TestResult $result = null)
     {
-		
 		// Get the code coverage filter from the suite's result object
-		$coverage = $result->getCodeCoverage();
-		
-		if ($coverage)
+		if ($result && $coverage = $result->getCodeCoverage())
 		{
 			$coverage_filter = $coverage->filter();
 
@@ -48,7 +41,7 @@ abstract class Kohana_Unittest_TestSuite extends PHPUnit_Framework_TestSuite
 			}
 		}
 		
-		return parent::run($result, $filter, $groups, $excludeGroups, $processIsolation);
+		return parent::run($result);
 	}
 	
 	/**
