@@ -8,8 +8,9 @@
  * @copyright  (c) 2008-2009 Kohana Team
  * @license    http://kohanaphp.com/license
  */
-abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Database_TestCase {
+abstract class Kohana_Unittest_Database_TestCase extends \PHPUnit\Framework\TestCase {
 
+    use \PHPUnit\DbUnit\TestCaseTrait;
 
 	/**
 	 * Make sure PHPUnit backs up globals
@@ -67,7 +68,7 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 	/**
 	 * Creates a connection to the unittesting database
 	 *
-	 * @return PDO
+	 * @return \PHPUnit\DbUnit\Database\Connection
 	 */
 	public function getConnection()
 	{
@@ -105,7 +106,7 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 	 */
 	public function cleanCacheDir()
 	{
-		return Kohana_Unittest_Helpers::clean_cache_dir();
+		Kohana_Unittest_Helpers::clean_cache_dir();
 	}
 
 	/**
@@ -145,5 +146,4 @@ abstract class Kohana_Unittest_Database_TestCase extends PHPUnit_Extensions_Data
 	{
 		return Kohana_Unittest_Helpers::has_internet();
 	}
-
 }
