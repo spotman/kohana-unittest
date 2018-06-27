@@ -24,7 +24,7 @@ abstract class Kohana_Unittest_TestSuite extends \PHPUnit\Framework\TestSuite
      * @return \PHPUnit\Framework\TestResult
      * @throws InvalidArgumentException
      */
-    public function run(\PHPUnit\Framework\TestResult $result = null)
+    public function run(\PHPUnit\Framework\TestResult $result = null): \PHPUnit\Framework\TestResult
     {
 		// Get the code coverage filter from the suite's result object
 		if ($result && $coverage = $result->getCodeCoverage())
