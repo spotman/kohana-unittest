@@ -4,7 +4,6 @@ try {
     $container = include __DIR__.'/../../bootstrap.php';
 } catch (Throwable $e) {
     fallbackExceptionHandler($e);
-    exit;
 }
 
 // Disable output buffering
