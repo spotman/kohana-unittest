@@ -1,10 +1,6 @@
 <?php
 
-try {
-    $container = include __DIR__.'/../../bootstrap.php';
-} catch (Throwable $e) {
-    fallbackExceptionHandler($e);
-}
+include __DIR__.'/../../bootstrap.php';
 
 // Disable output buffering
 if (($ob_len = ob_get_length()) !== false) {
